@@ -8,9 +8,9 @@ Armado del fixture de una liga de fútbol minimizando la varianza de los kilóme
 - El sistema define únicamente los enfrentamientos
 
 ## Restricciones
-- Todos los equipos deben jugar la misma cantidad de partidos de local y de visitante que el resto
+- Todos los equipos deben jugar la misma cantidad de partidos de local y de visitante que el resto o, a lo sumo, un partido de diferencia con respecto al resto de los equipos
 - Todos los equipos deben jugar la misma cantidad de partidos de local y de visitante o, a lo sumo, un partido de diferencia entre ambas condiciones
-- Ningún equipo puede jugar más de tres veces dos partidos consecutivos en la misma condición
+- Ningún equipo puede jugar más de dos partidos consecutivos en la misma condición
 - Los equipos considerados clásicos entre sí no pueden jugar en la misma condición en la misma fecha
 
 ## Relación con Investigación Operativa
