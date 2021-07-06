@@ -32,5 +32,16 @@ class FixtureManager(object):
         return fixture
 
     # Imprime el fixture por pantalla
-    def print(self):
-        print("This is the fixture")
+    def print(self, fixture):
+        print("--------------------------------------------------------------")
+        print("--------------------- FIXTURE PARA TODOS ---------------------")
+        print("--------------------------------------------------------------")
+
+        i = 1
+        for matchday in fixture:
+            print("\nFecha " + str(i) + ":")
+            i += 1
+
+            for match in matchday:
+                local_team, away_team = match[0], match[1]
+                print("\t" + local_team + "\t\tVs.\t\t" + away_team)
