@@ -1,4 +1,3 @@
-
 class RestrictionsValidator(object):
 
     def __init__(self):
