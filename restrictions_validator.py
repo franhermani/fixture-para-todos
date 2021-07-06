@@ -90,9 +90,17 @@ class RestrictionsValidator(object):
         R4: Los equipos considerados clásicos entre sí no pueden jugar
         en la misma condición en la misma fecha.
         '''
+        condition_per_team = {i: "X" for i in teams}
+
         for matchday in fixture:
             for match in matchday:
                 local_team, away_team = match[0], match[1]
-                # TODO: ...
+                condition_per_team[local_team] = "Local"
+                condition_per_team[away_team] = "Away"
+
+            for derby in derbies:
+                team1, team2 = derby[0], derby[1]
+                if condition_per_team[team1] == condition_per_team[team2]:
+                    return False
 
         return True

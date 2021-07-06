@@ -73,13 +73,13 @@ def load_distances(path):
 def load_derbies(path):
     '''
     Formato de los derbies:
-        {"Equipo A": "Equipo B",
+        [("Equipo A": "Equipo B"),
         ...,
-        "Equipo Y": "Equipo Z"
-        }
+        ("Equipo Y": "Equipo Z")
+        ]
     '''
 
-    derbies = {}
+    derbies = []
     header = True
 
     with open(path) as csv_file:
@@ -89,13 +89,7 @@ def load_derbies(path):
                 header = False
                 continue
 
-            team1, team2 = row[0], row[1]
-
-            if team1 not in derbies:
-                derbies[team1] = team2
-
-            if team2 not in derbies:
-                derbies[team2] = team1
+            derbies.append((row[0], row[1]))
 
     return derbies
 
@@ -118,7 +112,7 @@ def calculate_fixture(distances, derbies):
     fixture = [
         [("Boca Juniors", "River Plate"), ("Belgrano", "Talleres")],
         [("Talleres", "Boca Juniors"), ("River Plate", "Belgrano")],
-        [("Boca Juniors", "Belgrano"), ("River Plate", "Talleres")]
+        [("Boca Juniors", "Belgrano"), ("Talleres", "River Plate")]
     ]
 
     # TODO: cada vez que calculo el fixture, chequear las restricciones.
