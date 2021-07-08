@@ -27,10 +27,10 @@ class FixtureManager(object):
     # Calcula un fixture aleatorio del torneo inicial
     # que cumpla con todas las restricciones
     def calculate_initial_fixture(self):
+        print("Calculando fixture inicial. Por favor espere...")
         while True:
             fixture = self.__calculate_initial_fixture__()
             if self.is_compatible(fixture):
-                print("Fixture incompatible. Reiniciando...")
                 break
 
         return fixture
@@ -69,7 +69,6 @@ class FixtureManager(object):
                     # Si no hay ninguno factible, salgo del ciclo
                     # y reinicio el fixture
                     if not local_team:
-                        print("Fixture incompatible. Reiniciando...")
                         dead_end = True
                         break
 
@@ -81,7 +80,6 @@ class FixtureManager(object):
                     # Si no hay ninguno factible, salgo del ciclo
                     # y reinicio el fixture
                     if not away_team:
-                        print("Fixture incompatible. Reiniciando...")
                         dead_end = True
                         break
 
@@ -190,6 +188,34 @@ class FixtureManager(object):
             return None
 
         return random.choice(available_teams)
+
+    # Recibe el fixture inicial y le aplica la heuristica para
+    # minimizar la varianza de los km de viaje de todos los equipos
+    def calculate_optimized_fixture(self, fixture):
+        print("Optimizando fixture inicial. Por favor espere...")
+        # TODO: codear esta funcion teniendo en cuenta la varianza
+
+        # Paso 1
+        # Seleccionar los N equipos con mayor dispersión de la media
+        # (es decir, aquellos que más impacto negativo tienen en la varianza)
+        # y alternar su condición en los M partidos que tienen mayor
+        # distancia recorrida, para así acercarse a la media.
+
+        # Paso 2
+        # En cada intercambio se debe comprobar que las restricciones
+        # se sigan cumpliendo para todos los equipos. Si alguna restricción
+        # no se cumple, se selecciona el siguiente intercambio candidato.
+
+        # Paso 3
+        # Una vez obtenida la solución, se la compara con la solución anterior.
+        # Si es mejor, se actualiza; si no, se mantiene la anterior.
+
+        # Paso 4
+        # Repetir los pasos 1, 2 y 3 tomando la última solución obtenida,
+        # evitando repetir intercambios previamente realizados,
+        # al menos por J iteraciones (para así explorar nuevas soluciones).
+
+        return fixture
 
     # Determina si el fixture obtenido es compatible
     def is_compatible(self, fixture):

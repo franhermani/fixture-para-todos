@@ -16,7 +16,7 @@ class DistanceTravelledManager(object):
             km_traveled_variance += (distance - media)**2
         km_traveled_variance/len(km_traveled_per_team)
 
-        return math.sqrt(km_traveled_variance)
+        return round(math.sqrt(km_traveled_variance), 2)
 
     # Calcula los km recorridos por cada equipo
     def __calculate_km_traveled_per_team__(self, fixture):
