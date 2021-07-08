@@ -32,7 +32,7 @@ Armado del fixture de una liga de fútbol minimizando la varianza de los kilóme
 
 ### Pasos
 #### Paso 1
-Armar una solución inicial factible tomando siempre en cada fecha el rival más cercano, siempre considerando
+Armar una solución inicial factible tomando en cada fecha rivales aleatorios, siempre considerando
 que los dos equipos no se hayan enfrentado aún y que se cumplan las restricciones mencionadas.
 Una vez completa la solución, calcular la varianza de los kilómetros recorridos por todos los equipos.
 

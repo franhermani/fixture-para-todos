@@ -1,16 +1,18 @@
 class RestrictionsValidator(object):
 
-    def __init__(self):
-        self.param_r1 = 1
-        self.param_r2 = 1
-        self.param_r3 = 2
+    def __init__(self, teams, derbies, restrictions_params):
+        self.teams = teams
+        self.derbies = derbies
+        self.param_r1 = restrictions_params["r1"]
+        self.param_r2 = restrictions_params["r2"]
+        self.param_r3 = restrictions_params["r3"]
 
-    def validate_fixture(self, fixture, derbies, teams):
-        return self.__validate_r1_and_r2__(fixture, teams) and\
-               self.__validate_r3__(fixture, teams) and\
-               self.__validate_r4__(fixture, derbies, teams)
+    def validate_fixture(self, fixture):
+        return self.__validate_r1_and_r2__(fixture) and\
+               self.__validate_r3__(fixture) and\
+               self.__validate_r4__(fixture)
 
-    def __validate_r1_and_r2__(self, fixture, teams):
+    def __validate_r1_and_r2__(self, fixture):
         '''
         - R1: Todos los equipos deben jugar la misma cantidad de partidos de
           local y de visitante que el resto o, a lo sumo, <param_r1> partido/s
@@ -19,8 +21,8 @@ class RestrictionsValidator(object):
           de local y de visitante o, a lo sumo, <param_r2> partido/s
           de diferencia entre ambas condiciones
         '''
-        local_matches_per_team = {i: 0 for i in teams}
-        away_matches_per_team = {i: 0 for i in teams}
+        local_matches_per_team = {i: 0 for i in self.teams}
+        away_matches_per_team = {i: 0 for i in self.teams}
 
         for matches in fixture:
             for match in matches:
@@ -43,7 +45,7 @@ class RestrictionsValidator(object):
                     return False
 
         # (R2) Compruebo partidos de local y de visitante de cada equipo
-        for team in teams:
+        for team in self.teams:
             local_matches = local_matches_per_team[team]\
                 if team in local_matches_per_team else 0
             away_matches = away_matches_per_team[team]\
@@ -53,13 +55,13 @@ class RestrictionsValidator(object):
 
         return True
 
-    def __validate_r3__(self, fixture, teams):
+    def __validate_r3__(self, fixture):
         '''
         R3: Ningún equipo puede jugar más de <param_r3> partidos
         consecutivos en la misma condición
         '''
-        last_condition_per_team = {i: "X" for i in teams}
-        consecutive_per_team = {i: 1 for i in teams}
+        last_condition_per_team = {i: "X" for i in self.teams}
+        consecutive_per_team = {i: 1 for i in self.teams}
 
         for matchday in fixture:
             for match in matchday:
@@ -84,12 +86,12 @@ class RestrictionsValidator(object):
 
         return True
 
-    def __validate_r4__(self, fixture, derbies, teams):
+    def __validate_r4__(self, fixture):
         '''
         R4: Los equipos considerados clásicos entre sí no pueden jugar
         de local en la misma fecha.
         '''
-        condition_per_team = {i: "X" for i in teams}
+        condition_per_team = {i: "X" for i in self.teams}
 
         for matchday in fixture:
             for match in matchday:
@@ -97,8 +99,7 @@ class RestrictionsValidator(object):
                 condition_per_team[local_team] = "Local"
                 condition_per_team[away_team] = "Away"
 
-            for derby in derbies:
-                team1, team2 = derby[0], derby[1]
+            for team1, team2 in self.derbies.items():
                 if condition_per_team[team1] == condition_per_team[team2] and\
                    condition_per_team[team1] == "Local":
                     return False
