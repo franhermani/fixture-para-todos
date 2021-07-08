@@ -53,13 +53,13 @@ class FixtureManager(object):
             teams_to_face_per_team[team] = copy.deepcopy(self.teams)
             teams_to_face_per_team[team].remove(team)
 
+        # Iteracion inicial
         for x in range(n_matchdays):
             matchday = []
             for y in range(n_matches):
                 # Equipo local
                 local_team = self.__calculate_local_team__(
-                    fixture, teams_to_play_per_matchday,
-                    teams_to_face_per_team)
+                    fixture, matchday, teams_to_play_per_matchday)
 
                 # Equipo visitante
                 away_team = self.__calculate_away_team__(
@@ -94,13 +94,21 @@ class FixtureManager(object):
             # Reinicio los equipos por asignar en la fecha
             teams_to_play_per_matchday = copy.deepcopy(self.teams)
 
+        # Chequeo que se cumplan las restricciones
+        # TODO: deberia chequear R1 y R2
+        # Idea: si no se cumplen, meter todo en un while
+        # hasta que devuelva True el validator
+
         return fixture
 
     # Obtiene un equipo local aleatorio que cumpla las restricciones
     # y que no haya jugado la fecha actual
-    def __calculate_local_team__(self, fixture, teams_to_play_per_matchday,
-                                 teams_to_face_per_team):
-        # TODO: codear esta funcion chequeando las 4 restricciones
+    def __calculate_local_team__(self, fixture, matchday,
+                                 teams_to_play_per_matchday):
+        # TODO: el local team debe cumplir:
+        # - Que no haya jugado los ultimos dos de local (ver fixture)
+        # - Que su clasico no sea local en esta misma fecha (ver matchday)
+        # - Que no haya jugado la fecha actual
         return random.choice(teams_to_play_per_matchday)
 
     # Obtiene un equipo visitante aleatorio que cumpla las restricciones,
@@ -108,7 +116,10 @@ class FixtureManager(object):
     # al equipo local actual
     def __calculate_away_team__(self, fixture, teams_to_play_per_matchday,
                                 teams_to_face_per_team, local_team):
-        # TODO: codear esta funcion chequeando las 4 restricciones
+        # TODO: el away team debe cumplir:
+        # - Que no haya jugado los ultimos dos de visitante (ver fixture)
+        # - Que no haya jugado la fecha actual
+        # - Que no se haya enfrentado aun al local team
         available_teams = list(set(teams_to_play_per_matchday) &
                                set(teams_to_face_per_team[local_team]))
 

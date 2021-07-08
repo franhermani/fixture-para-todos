@@ -13,7 +13,7 @@ class RestrictionsValidator(object):
     def __validate_r1_and_r2__(self, fixture, teams):
         '''
         - R1: Todos los equipos deben jugar la misma cantidad de partidos de
-          local y de visitante que el resto o, a lo sumo,<param_r1> partido/s
+          local y de visitante que el resto o, a lo sumo, <param_r1> partido/s
           de diferencia con respecto al resto de los equipos
         - R2: Todos los equipos deben jugar la misma cantidad de partidos
           de local y de visitante o, a lo sumo, <param_r2> partido/s
@@ -87,7 +87,7 @@ class RestrictionsValidator(object):
     def __validate_r4__(self, fixture, derbies, teams):
         '''
         R4: Los equipos considerados clásicos entre sí no pueden jugar
-        en la misma condición en la misma fecha.
+        de local en la misma fecha.
         '''
         condition_per_team = {i: "X" for i in teams}
 
@@ -99,7 +99,8 @@ class RestrictionsValidator(object):
 
             for derby in derbies:
                 team1, team2 = derby[0], derby[1]
-                if condition_per_team[team1] == condition_per_team[team2]:
+                if condition_per_team[team1] == condition_per_team[team2] and\
+                   condition_per_team[team1] == "Local":
                     return False
 
         return True
