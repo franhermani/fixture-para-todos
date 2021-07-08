@@ -6,11 +6,11 @@ class RestrictionsValidator(object):
         self.param_r3 = 2
 
     def validate_fixture(self, fixture, derbies, teams):
-        return self.validate_r1_and_r2(fixture, teams) and\
-               self.validate_r3(fixture, teams) and\
-               self.validate_r4(fixture, derbies, teams)
+        return self.__validate_r1_and_r2__(fixture, teams) and\
+               self.__validate_r3__(fixture, teams) and\
+               self.__validate_r4__(fixture, derbies, teams)
 
-    def validate_r1_and_r2(self, fixture, teams):
+    def __validate_r1_and_r2__(self, fixture, teams):
         '''
         - R1: Todos los equipos deben jugar la misma cantidad de partidos de
           local y de visitante que el resto o, a lo sumo,<param_r1> partido/s
@@ -53,7 +53,7 @@ class RestrictionsValidator(object):
 
         return True
 
-    def validate_r3(self, fixture, teams):
+    def __validate_r3__(self, fixture, teams):
         '''
         R3: Ningún equipo puede jugar más de <param_r3> partidos
         consecutivos en la misma condición
@@ -84,7 +84,7 @@ class RestrictionsValidator(object):
 
         return True
 
-    def validate_r4(self, fixture, derbies, teams):
+    def __validate_r4__(self, fixture, derbies, teams):
         '''
         R4: Los equipos considerados clásicos entre sí no pueden jugar
         en la misma condición en la misma fecha.

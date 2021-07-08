@@ -1,3 +1,7 @@
+import copy
+import random
+
+
 class FixtureManager(object):
     '''
     Formato del fixture (cada elemento de la lista es una fecha):
@@ -18,18 +22,97 @@ class FixtureManager(object):
     # Calcula el fixture del torneo minimizando la varianza
     # de los km de viaje de todos los equipos
     def calculate_initial_fixture(self):
+        '''
         fixture = [
             [("Boca Juniors", "River Plate"), ("Belgrano", "Talleres")],
             [("Talleres", "Boca Juniors"), ("River Plate", "Belgrano")],
             [("Boca Juniors", "Belgrano"), ("Talleres", "River Plate")]
         ]
+        '''
 
         # TODO: cada vez que calculo el fixture, chequear las restricciones.
         # Si no se cumple alguna, tendria que encontrar una forma piola de
         # realizar intercambios hasta que se cumpla o de generar
         # un nuevo fixture de cero que sí cumpla
 
+        # Cantidad de fechas
+        n_matchdays = len(self.teams) - 1
+
+        # Cantidad de partidos por fecha
+        n_matches = int(len(self.teams) / 2)
+
+        # Fixture
+        fixture = []
+
+        # Array para saber que equipos quedan por asignar en la fecha actual
+        teams_to_play_per_matchday = copy.deepcopy(self.teams)
+
+        # Diccionario para saber a que equipos resta enfrentar cada equipo
+        teams_to_face_per_team = {i: [] for i in self.teams}
+        for team in teams_to_face_per_team:
+            teams_to_face_per_team[team] = copy.deepcopy(self.teams)
+            teams_to_face_per_team[team].remove(team)
+
+        for x in range(n_matchdays):
+            matchday = []
+            for y in range(n_matches):
+                # Equipo local
+                local_team = self.__calculate_local_team__(
+                    fixture, teams_to_play_per_matchday,
+                    teams_to_face_per_team)
+
+                # Equipo visitante
+                away_team = self.__calculate_away_team__(
+                    fixture, teams_to_play_per_matchday,
+                    teams_to_face_per_team, local_team)
+
+                # Agrego el partido a la fecha
+                matchday.append((local_team, away_team))
+
+                # DEBUG
+                # print("FECHA " + str(x+1))
+                # print("\n")
+                # print("Equipos por asignar en la fecha:")
+                # print(teams_to_play_per_matchday)
+                # print("\n")
+                # print("Equipos a enfrentar por cada equipo:")
+                # print(teams_to_face_per_team)
+                # print("\n")
+                # print("Partido:")
+                # print(local_team + " Vs. " + away_team)
+                # print("\n")
+
+                # Limpio array y diccionario de equipos
+                teams_to_play_per_matchday.remove(local_team)
+                teams_to_play_per_matchday.remove(away_team)
+                teams_to_face_per_team[local_team].remove(away_team)
+                teams_to_face_per_team[away_team].remove(local_team)
+
+            # Agrego la fecha al fixture
+            fixture.append(matchday)
+
+            # Reinicio los equipos por asignar en la fecha
+            teams_to_play_per_matchday = copy.deepcopy(self.teams)
+
         return fixture
+
+    # Obtiene un equipo local aleatorio que cumpla las restricciones
+    # y que no haya jugado la fecha actual
+    def __calculate_local_team__(self, fixture, teams_to_play_per_matchday,
+                                 teams_to_face_per_team):
+        # TODO: codear esta funcion chequeando las 4 restricciones
+        return random.choice(teams_to_play_per_matchday)
+
+    # Obtiene un equipo visitante aleatorio que cumpla las restricciones,
+    # que no haya jugado la fecha actual y que no se haya enfrentado
+    # al equipo local actual
+    def __calculate_away_team__(self, fixture, teams_to_play_per_matchday,
+                                teams_to_face_per_team, local_team):
+        # TODO: codear esta funcion chequeando las 4 restricciones
+        available_teams = list(set(teams_to_play_per_matchday) &
+                               set(teams_to_face_per_team[local_team]))
+
+        return random.choice(available_teams)
 
     # Imprime el fixture por pantalla
     def print(self, fixture):
