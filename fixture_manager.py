@@ -208,4 +208,7 @@ class FixtureManager(object):
 
             for match in matchday:
                 local_team, away_team = match[0], match[1]
-                print("\t" + local_team + "\t\tVs.\t\t" + away_team)
+                local_tabs = "\t\t" if len(local_team) >= 8 else "\t\t\t"
+                away_tabs = "\t\t"
+                print("\t" + local_team + local_tabs + "Vs." +
+                      away_tabs + away_team)
