@@ -28,7 +28,6 @@ Armado del fixture de una liga de fútbol minimizando la varianza de los kilóme
 - N: Cantidad de equipos a realizarles intercambios
 - M: Cantidad de intercambios a realizar por equipo
 - K: Cantidad de iteraciones del algoritmo
-- J: Cantidad de iteraciones que se prohiben los intercambios previamente realizados
 
 ### Pasos
 #### Paso 1
