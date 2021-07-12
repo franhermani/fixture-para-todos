@@ -46,7 +46,7 @@ En cada intercambio se debe comprobar que las restricciones se sigan cumpliendo 
 Una vez obtenida la nueva solución, se la compara con la solución anterior. Si es mejor, se actualiza; si no, se mantiene la anterior.
 
 #### Paso 5
-Repetir los pasos 2, 3 y 4 tomando la última solución obtenida, evitando repetir intercambios previamente realizados, al menos por J iteraciones (para así explorar nuevas soluciones).
+Repetir los pasos 2, 3 y 4 tomando la solución previamente obtenida.
 
 #### Paso 6
 Devolver la última solución obtenida.

@@ -1,0 +1,29 @@
+origin,destiny,distance
+"Belgrano","Boca Juniors",710
+"Belgrano","Colon",363
+"Belgrano","Newells",405
+"Belgrano","River Plate",688
+"Belgrano","Rosario Central",409
+"Belgrano","Talleres",7
+"Belgrano","Union",359
+"Boca Juniors","Colon",473
+"Boca Juniors","Newells",311
+"Boca Juniors","River Plate",14
+"Boca Juniors","Rosario Central",323
+"Boca Juniors","Talleres",720
+"Boca Juniors","Union",470
+"Colon","Newells",176
+"Colon","River Plate",459
+"Colon","Rosario Central",168
+"Colon","Talleres",372
+"Colon","Union",4
+"Newells","River Plate",287
+"Newells","Rosario Central",7
+"Newells","Talleres",414
+"Newells","Union",172
+"River Plate","Rosario Central",299
+"River Plate","Talleres",697
+"River Plate","Union",456
+"Rosario Central","Talleres",418
+"Rosario Central","Union",164
+"Talleres","Union",369
