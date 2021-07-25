@@ -1,6 +1,7 @@
 import copy
-from distance_travelled_manager import DistanceTravelledManager
 import random
+import time
+from distance_travelled_manager import DistanceTravelledManager
 from restrictions_validator import RestrictionsValidator
 
 
@@ -21,16 +22,28 @@ class FixtureManager(object):
                  heuristic_params):
         self.teams = teams
         self.derbies = derbies
+        self.distances = distances
         self.param_r3 = restrictions_params["r3"]
         self.validator = RestrictionsValidator(teams, derbies,
                                                restrictions_params)
         self.distance_travelled_manager = DistanceTravelledManager(distances)
-        self.distances = distances
+        self.initial_variance = None
 
         # Parametros de la heuristica
-        self.n_teams_to_be_swapped = heuristic_params["n_teams_to_be_swapped"]
-        self.n_swaps_per_team = heuristic_params["n_swaps_per_team"]
+        self.max_execution_time = heuristic_params["max_execution_time"]
+        self.variance_improve_perc = heuristic_params["variance_improve_perc"]
         self.n_iterations = heuristic_params["n_iterations"]
+
+        if self.max_execution_time == -1:
+            self.max_execution_time = float('inf')
+        else:
+            self.max_execution_time *= 60
+
+        if self.variance_improve_perc == -1:
+            self.variance_improve_perc = float('inf')
+
+        if self.n_iterations == -1:
+            self.n_iterations = float('inf')
 
     # Calcula un fixture aleatorio del torneo inicial
     # que cumpla con todas las restricciones
@@ -39,6 +52,18 @@ class FixtureManager(object):
         while True:
             fixture = self.__calculate_initial_fixture__()
             if self.is_compatible(fixture):
+                print("Km recorridos por cada equipo:")
+                km_travelled_per_team = self.distance_travelled_manager.\
+                    calculate_km_travelled_per_team(fixture)
+                for team, km in km_travelled_per_team.items():
+                    print("- " + team + ": " + str(km))
+
+                print("\nVarianza de los km recorridos por todos los equipos:")
+                variance = self.distance_travelled_manager\
+                               .calculate_km_travelled_variance(fixture)
+                print(variance)
+                print("\n")
+
                 break
 
         return fixture
@@ -178,63 +203,46 @@ class FixtureManager(object):
 
         return random.choice(available_teams)
 
-    '''
-    # Recibe el fixture inicial y le aplica la heuristica para
-    # minimizar la varianza de los km de viaje de todos los equipos
-    def calculate_optimized_fixture(self, fixture):
-        print("Optimizando fixture. Por favor espere...")
-
-        # Varianza minima hasta el momento
-        min_variance = self.distance_travelled_manager.\
-            calculate_km_travelled_variance(fixture)
-
-        # Creo una copia del fixture
-        tmp_fixture = copy.deepcopy(fixture)
-
-        # Obtengo la dispersion de los equipos
-        teams_dispersion = self.distance_travelled_manager.\
-            __calculate_teams_dispersion__(tmp_fixture)
-
-        # Swapeo partidos
-        # for matchday in tmp_fixture:
-        #     for match in matchday:
-        #         # TODO: ...
-
-        # Paso 1
-        # Seleccionar los N equipos con mayor dispersión de la media
-        # (es decir, aquellos que más impacto negativo tienen en la varianza)
-        # y alternar su condición en los M partidos que tienen mayor
-        # distancia recorrida, para así acercarse a la media.
-
-        # Paso 2
-        # En cada intercambio se debe comprobar que las restricciones
-        # se sigan cumpliendo para todos los equipos. Si alguna restricción
-        # no se cumple, se selecciona el siguiente intercambio candidato.
-
-        # Paso 3
-        # Una vez obtenida la solución, se la compara con la solución anterior.
-        # Si es mejor, se actualiza; si no, se mantiene la anterior.
-
-        # Paso 4
-        # Repetir los pasos 1, 2 y 3 tomando la solución previamente obtenida
-
-        return fixture
-    '''
-
-    def calculate_optimized_fixture(self, fixture):
+    # Calcula fixtures aleatorios iterativamente y devuelve aquel
+    # con menor varianza de los km de viaje de todos los equipos
+    def calculate_optimized_fixture(self):
         min_variance = float("inf")
         optimized_fixture = None
+        i = 0
+        start_time = time.time()
 
-        for i in range(self.n_iterations):
+        while True:
             print("ITERACIÓN N° " + str(i+1) + "\n")
+            i += 1
+
+            # Calculo fixture aleatorio
             tmp_fixture = self.calculate_initial_fixture()
             tmp_variance = self.calculate_km_travelled_variance(tmp_fixture)
-            print(str(tmp_variance) + "\n")
+
+            # Actualizo fixture optimo
             if tmp_variance < min_variance:
                 optimized_fixture = tmp_fixture
                 min_variance = tmp_variance
 
+            # Chequeo tiempo maximo
+            if time.time() - start_time >= self.max_execution_time:
+                break
+
+            # Chequeo porcentaje de mejora respecto del fixture inicial
+            if self.calculate_improve_perc(self.initial_variance,
+               tmp_variance) >= self.variance_improve_perc:
+                break
+
+            # Chequeo cantidad de iteraciones
+            if i >= self.n_iterations:
+                break
+
         return optimized_fixture
+
+    # Calcula el porcentaje de mejora de v2 respecto de v1
+    # Teniendo en cuenta que es un problema de minimizar
+    def calculate_improve_perc(self, v1, v2):
+        return (v1 - v2) / v1 * 100
 
     # Determina si el fixture obtenido es compatible
     def is_compatible(self, fixture):
@@ -262,3 +270,29 @@ class FixtureManager(object):
                 away_tabs = "\t\t"
                 print("\t" + local_team + local_tabs + "Vs." +
                       away_tabs + away_team)
+
+    # Descarga el fixture en formato txt
+    def download(self, fixture):
+        f = open("fixture.txt", "w")
+        f.write("----------------------------------------------------")
+        f.write("\n")
+        f.write("---------------- FIXTURE PARA TODOS ----------------")
+        f.write("\n")
+        f.write("----------------------------------------------------")
+        f.write("\n")
+
+        i = 1
+        n_spaces = 20
+        for matchday in fixture:
+            f.write("\nFecha " + str(i) + ":\n")
+            i += 1
+
+            for match in matchday:
+                local_team, away_team = match[0], match[1]
+                local_spaces = " " * (n_spaces - len(local_team))
+                away_spaces = "        "
+                f.write("\t" + local_team + local_spaces + "Vs." +
+                        away_spaces + away_team)
+                f.write("\n")
+
+        f.close()

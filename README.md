@@ -23,6 +23,9 @@ Armado del fixture de una liga de fútbol minimizando la varianza de los kilóme
 - Equipos con más peso dejan de inclinar la balanza a su favor
 - Solución más justa para todos
 
+
+!!!ACTUALIZAR ESTO DE ACA ADELANTE!!!
+
 ## Heurística
 ### Parámetros
 - N: Cantidad de equipos a realizarles intercambios

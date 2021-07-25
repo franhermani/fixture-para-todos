@@ -1,0 +1,45 @@
+----------------------------------------------------
+---------------- FIXTURE PARA TODOS ----------------
+----------------------------------------------------
+
+Fecha 1:
+	Union               Vs.        Rosario Central
+	Newells             Vs.        Belgrano
+	River Plate         Vs.        Colon
+	Talleres            Vs.        Boca Juniors
+
+Fecha 2:
+	Colon               Vs.        Rosario Central
+	River Plate         Vs.        Talleres
+	Belgrano            Vs.        Union
+	Newells             Vs.        Boca Juniors
+
+Fecha 3:
+	Colon               Vs.        Belgrano
+	Talleres            Vs.        Newells
+	Rosario Central     Vs.        River Plate
+	Boca Juniors        Vs.        Union
+
+Fecha 4:
+	Boca Juniors        Vs.        Colon
+	Newells             Vs.        Rosario Central
+	Union               Vs.        Talleres
+	Belgrano            Vs.        River Plate
+
+Fecha 5:
+	River Plate         Vs.        Union
+	Rosario Central     Vs.        Boca Juniors
+	Belgrano            Vs.        Talleres
+	Colon               Vs.        Newells
+
+Fecha 6:
+	Union               Vs.        Newells
+	Rosario Central     Vs.        Belgrano
+	Boca Juniors        Vs.        River Plate
+	Talleres            Vs.        Colon
+
+Fecha 7:
+	Boca Juniors        Vs.        Belgrano
+	Talleres            Vs.        Rosario Central
+	Colon               Vs.        Union
+	Newells             Vs.        River Plate
