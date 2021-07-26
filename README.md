@@ -39,7 +39,7 @@ Una vez completa la solución, calcular la varianza de los kilómetros recorrido
 Calcular iterativamente soluciones aleatorias comparándolas con la inicial hasta que se cumpla alguna de las condiciones de corte.
 
 #### Paso 3
-Una vez obtenida la nueva solución, se la compara con la solución anterior. Si es mejor, se actualiza; si no, se mantiene la anterior.
+Una vez obtenida una nueva solución, se la compara con la solución anterior. Si es mejor, se actualiza; si no, se mantiene la anterior.
 
 #### Paso 4
 Devolver la última solución obtenida.

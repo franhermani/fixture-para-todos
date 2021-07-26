@@ -3,43 +3,43 @@
 ----------------------------------------------------
 
 Fecha 1:
-	Union               Vs.        Rosario Central
-	Newells             Vs.        Belgrano
-	River Plate         Vs.        Colon
-	Talleres            Vs.        Boca Juniors
-
-Fecha 2:
-	Colon               Vs.        Rosario Central
-	River Plate         Vs.        Talleres
-	Belgrano            Vs.        Union
-	Newells             Vs.        Boca Juniors
-
-Fecha 3:
 	Colon               Vs.        Belgrano
-	Talleres            Vs.        Newells
 	Rosario Central     Vs.        River Plate
 	Boca Juniors        Vs.        Union
+	Talleres            Vs.        Newells
+
+Fecha 2:
+	Newells             Vs.        Boca Juniors
+	Belgrano            Vs.        Talleres
+	River Plate         Vs.        Union
+	Colon               Vs.        Rosario Central
+
+Fecha 3:
+	Boca Juniors        Vs.        River Plate
+	Newells             Vs.        Colon
+	Union               Vs.        Talleres
+	Belgrano            Vs.        Rosario Central
 
 Fecha 4:
-	Boca Juniors        Vs.        Colon
-	Newells             Vs.        Rosario Central
-	Union               Vs.        Talleres
-	Belgrano            Vs.        River Plate
+	Rosario Central     Vs.        Newells
+	Talleres            Vs.        Boca Juniors
+	River Plate         Vs.        Colon
+	Union               Vs.        Belgrano
 
 Fecha 5:
-	River Plate         Vs.        Union
-	Rosario Central     Vs.        Boca Juniors
-	Belgrano            Vs.        Talleres
-	Colon               Vs.        Newells
+	Belgrano            Vs.        River Plate
+	Newells             Vs.        Union
+	Boca Juniors        Vs.        Rosario Central
+	Colon               Vs.        Talleres
 
 Fecha 6:
-	Union               Vs.        Newells
-	Rosario Central     Vs.        Belgrano
-	Boca Juniors        Vs.        River Plate
-	Talleres            Vs.        Colon
+	Newells             Vs.        Belgrano
+	Boca Juniors        Vs.        Colon
+	Union               Vs.        Rosario Central
+	Talleres            Vs.        River Plate
 
 Fecha 7:
-	Boca Juniors        Vs.        Belgrano
-	Talleres            Vs.        Rosario Central
+	Belgrano            Vs.        Boca Juniors
 	Colon               Vs.        Union
-	Newells             Vs.        River Plate
+	River Plate         Vs.        Newells
+	Rosario Central     Vs.        Talleres
